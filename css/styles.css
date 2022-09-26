@@ -1,7 +1,3 @@
-:root {
-  --search-bar-display: brown;
-}
-
 body {
   background-color: #bababa;
 }
@@ -50,4 +46,27 @@ button {
 
 .margin-add {
   margin: 1rem auto;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.search-card {
+  background-color: lightgray;
+  border-radius: 10px;
+  height: 50%;
+  width: 100%;
+  margin: 1rem 0;
+  margin-bottom: 0;
+}
+
+.image-holder {
+  height: 100%;
+}
+
+.image-holder img {
+  object-fit: scale-down;
+  padding: 1rem;
+  max-height: 100%;
 }
