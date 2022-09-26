@@ -39,8 +39,4 @@
   .column-two-third {
     width: calc(200% / 3);
   }
-
-  .height-one-third {
-    height: calc(100%/3);
-  }
 }
