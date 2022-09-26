@@ -1,0 +1,24 @@
+.title {
+  color: white;
+}
+
+.search-bar-background {
+  margin: 0.5rem 0;
+  padding: 0;
+}
+
+.search-bar {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2.5px;
+  padding: 0.5rem;
+  width: 15rem;
+}
+
+.gray {
+  background-color: #bababa;
+}
+
+.bottom-shadow {
+  box-shadow: 0 12px 2px 1px black;
+}
