@@ -1,24 +1,53 @@
+:root {
+  --search-bar-display: brown;
+}
+
+body {
+  background-color: #bababa;
+}
+
+.hidden {
+  display: none !important;
+}
+
 .title {
   color: white;
+  font-family: "Nova Square", sans-serif;
+  font-weight: 100;
 }
 
 .search-bar-background {
-  margin: 0.5rem 0;
-  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 .search-bar {
   background-color: #fff;
   border: 0;
   border-radius: 2.5px;
-  padding: 0.5rem;
-  width: 15rem;
-}
-
-.gray {
-  background-color: #bababa;
+  margin-right: 1rem;
+  padding: 0.75rem;
+  width: 20rem;
 }
 
 .bottom-shadow {
-  box-shadow: 0 12px 2px 1px black;
+  box-shadow: 0 3px 5px 1px #6b6b6b;
+}
+
+button {
+  background-color: #fff;
+  border: solid #3987be;
+  color: #3987be;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.heading-color {
+  background-color: #b2591a;
+}
+
+.margin-add {
+  margin: 1rem auto;
 }

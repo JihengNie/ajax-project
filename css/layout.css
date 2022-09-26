@@ -1,7 +1,3 @@
-.hidden {
-  display: none !important;
-}
-
 .container {
   max-width: 575px;
   margin: 0 auto;
@@ -18,17 +14,11 @@
 .column-half {
   width: 100%;
   padding: 0 1.5rem;
-  background-color: #b2591a;
 }
 
 @media screen and (min-width: 768px) {
   .container {
     max-width: 900px;
-  }
-
-  .search-bar-background {
-    background-color: #b2591a;
-    padding: 1.5rem 0;
   }
 
   .column-full,
@@ -42,11 +32,11 @@
     width: 50%;
   }
 
-  .column-two-third {
-    width: calc(200% / 3);
-  }
-
   .column-one-third {
     width: calc(100% / 3);
+  }
+
+  .column-two-third {
+    width: calc(200% / 3);
   }
 }
