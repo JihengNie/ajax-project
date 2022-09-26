@@ -2,6 +2,7 @@ var $mobileSearch = document.querySelector('.mobile-search-hidden');
 var $windowSearch = document.querySelector('.window-search-hidden');
 var windowCurrentSize = window.innerWidth;
 var $listOfCardTexts = document.querySelectorAll('.truncate');
+// Use Queryselector for a column-half element and populate the data from my API
 
 window.addEventListener('resize', searchBarDisplay);
 
@@ -36,11 +37,17 @@ function truncateTexts() {
 }
 truncateTexts();
 
+// Used to avoid CORS error
 function getYugiohData(cardName) {
+  var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://db.ygoprodeck.com/api/v7/cardinfo.php' + 'name=' + cardName);
+  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+  xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    // console.log(xhr.response);
+  });
   xhr.send();
 }
 
-getYugiohData('Kuriboh');
+getYugiohData('Blue-Eyes White Dragon');
