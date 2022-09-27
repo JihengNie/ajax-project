@@ -2,6 +2,7 @@ var $mobileSearch = document.querySelector('.mobile-search-hidden');
 var $windowSearch = document.querySelector('.window-search-hidden');
 var windowCurrentSize = window.innerWidth;
 var $listOfCardTexts = document.querySelectorAll('.truncate');
+var $searchResults = document.querySelector('.search-results');
 // Use Queryselector for a column-half element and populate the data from my API
 
 window.addEventListener('resize', searchBarDisplay);
@@ -39,30 +40,50 @@ truncateTexts();
 
 // Used to avoid CORS error
 function getYugiohData(cardName) {
+  var tempData;
+  var tempDomTree;
   var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
   xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    // console.log(xhr.response);
+    tempData = xhr.response;
+    tempDomTree = generateSearchCard(tempData);
+    $searchResults.appendChild(tempDomTree);
   });
   xhr.send();
 }
 
 getYugiohData('Blue-Eyes White Dragon');
+getYugiohData('Kuriboh');
 
-// function generateDomTree(tagName, attributes, children = []) {
-//   var element = document.createElement(tagName);
-//   for (var key in attributes) {
-//     if (key === 'textContent') {
-//       element.textContent = attributes.textContent;
-//     } else {
-//       element.setAttribute(key, attributes[key]);
-//     }
-//   }
-//   for (var i = 0; i < children.length; i++) {
-//     element.append(children[i]);
-//   }
-//   return element;
-// }
+function generateDomTree(tagName, attributes, children = []) {
+  var element = document.createElement(tagName);
+  for (var key in attributes) {
+    if (key === 'textContent') {
+      element.textContent = attributes.textContent;
+    } else {
+      element.setAttribute(key, attributes[key]);
+    }
+  }
+  for (var i = 0; i < children.length; i++) {
+    element.append(children[i]);
+  }
+  return element;
+}
+
+function generateSearchCard(cardData) {
+  var DOMTree = generateDomTree('div', { class: 'column-half' }, [
+    generateDomTree('div', { class: 'search-card' }, [
+      generateDomTree('div', { class: 'image-holder' }, [
+        generateDomTree('img', { class: 'card-image', src: cardData.data[0].card_images[0].image_url })
+      ]),
+      generateDomTree('div', { class: 'card-text' }, [
+        generateDomTree('h3', { textContent: cardData.data[0].name }),
+        generateDomTree('p', { textContent: cardData.data[0].desc })
+      ])
+    ])
+  ]);
+  return DOMTree;
+}
