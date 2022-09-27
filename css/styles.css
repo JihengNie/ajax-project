@@ -81,3 +81,17 @@ button {
   padding-top: 0;
   font-size: 0.75rem;
 }
+
+.window-search-hidden {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .window-search-hidden {
+    display: contents;
+  }
+
+  .mobile-search-hidden {
+    display: none;
+  }
+}

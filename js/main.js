@@ -1,11 +1,9 @@
 var $mobileSearch = document.querySelector('.mobile-search-hidden');
 var $windowSearch = document.querySelector('.window-search-hidden');
-var windowCurrentSize = window.innerWidth;
 var $searchResults = document.querySelector('.search-results');
 var $noResultFound = document.querySelector('.no-result-found');
 
 // Event Handlers
-window.addEventListener('resize', searchBarDisplay);
 $mobileSearch.addEventListener('submit', mobileSearching);
 $windowSearch.addEventListener('submit', windowSearching);
 
@@ -13,8 +11,7 @@ $windowSearch.addEventListener('submit', windowSearching);
 function mobileSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($mobileSearch.elements.search.value);
-  $mobileSearch.reset()
-  ;
+  $mobileSearch.reset();
 }
 
 function windowSearching(event) {
@@ -23,37 +20,7 @@ function windowSearching(event) {
   $windowSearch.reset();
 }
 
-// Used for showing the correct search bar based on current window size
-if (windowCurrentSize > 768) {
-  $mobileSearch.className = 'hidden';
-  $windowSearch.className = 'column-one-third search-bar-background window-search-hidden';
-} else {
-  $windowSearch.className = 'hidden';
-  $mobileSearch.className = 'column-one-third search-bar-background window-search-hidden';
-}
-
-// Used for showing the correct search bar based on window size change
-function searchBarDisplay(event) {
-  if (window.innerWidth > 768) {
-    $mobileSearch.className = 'hidden';
-    $windowSearch.className = 'column-one-third search-bar-background window-search-hidden';
-  } else {
-    $windowSearch.className = 'hidden';
-    $mobileSearch.className = 'column-one-third search-bar-background window-search-hidden';
-  }
-}
-
-function truncateTexts(text) {
-  var threeLines = 200;
-  if (!text) {
-    return;
-  }
-  if (text.length >= threeLines) {
-    text = text.slice(0, threeLines) + '...';
-  }
-  return text;
-}
-
+// Other functions
 function getYugiohDataFuzzy(fuzzyCardName) {
   var tempData;
   var tempDomTree;
@@ -109,4 +76,15 @@ function generateSearchCard(cardData, i = 0) {
     ])
   ]);
   return DOMTree;
+}
+
+function truncateTexts(text) {
+  var threeLines = 200;
+  if (!text) {
+    return;
+  }
+  if (text.length >= threeLines) {
+    text = text.slice(0, threeLines) + '...';
+  }
+  return text;
 }
