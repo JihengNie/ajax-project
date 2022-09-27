@@ -1,7 +1,6 @@
 var $mobileSearch = document.querySelector('.mobile-search-hidden');
 var $windowSearch = document.querySelector('.window-search-bar');
-var $searchResults = document.querySelector('.search-results');
-var $noResultFound = document.querySelector('.no-result-found');
+var $searchResultFeed = document.querySelector('.search-results');
 
 // Event Handlers
 $mobileSearch.addEventListener('submit', mobileSearching);
@@ -11,16 +10,24 @@ $windowSearch.addEventListener('submit', windowSearching);
 function mobileSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($mobileSearch.elements.search.value);
+  resetSearchResults();
   $mobileSearch.reset();
 }
 
 function windowSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($windowSearch.elements.search.value);
+  resetSearchResults();
   $windowSearch.reset();
 }
 
 // Other functions
+function resetSearchResults() {
+  while ($searchResultFeed.firstChild) {
+    $searchResultFeed.removeChild($searchResultFeed.firstChild);
+  }
+}
+
 function getYugiohDataFuzzy(fuzzyCardName) {
   var tempData;
   var tempDomTree;
@@ -33,7 +40,7 @@ function getYugiohDataFuzzy(fuzzyCardName) {
   xhr.addEventListener('load', function () {
     tempData = xhr.response;
     if (tempData.error) {
-      $noResultFound.className = 'column-half no-result-found';
+      generateNoResultSearchCard();
       return;
     }
     var maxLength = 5; // Can use later to modify how many search results are displayed
@@ -42,7 +49,7 @@ function getYugiohDataFuzzy(fuzzyCardName) {
     }
     for (var i = 0; i < maxLength; i++) {
       tempDomTree = generateSearchCard(tempData, i);
-      $searchResults.appendChild(tempDomTree);
+      $searchResultFeed.appendChild(tempDomTree);
     }
   });
   xhr.send();
@@ -76,6 +83,20 @@ function generateSearchCard(cardData, i = 0) {
     ])
   ]);
   return DOMTree;
+}
+
+function generateNoResultSearchCard() {
+  var DOMTree = generateDomTree('div', { class: 'column-half' }, [
+    generateDomTree('div', { class: 'search-card' }, [
+      generateDomTree('div', { class: 'image-holder' }, [
+        generateDomTree('img', { class: 'card-image', src: 'images/Sheep.png' })
+      ]),
+      generateDomTree('div', { class: 'card-text' }, [
+        generateDomTree('h3', { textContent: 'No results found' })
+      ])
+    ])
+  ]);
+  $searchResultFeed.appendChild(DOMTree);
 }
 
 function truncateTexts(text) {
