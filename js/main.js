@@ -51,3 +51,18 @@ function getYugiohData(cardName) {
 }
 
 getYugiohData('Blue-Eyes White Dragon');
+
+// function generateDomTree(tagName, attributes, children = []) {
+//   var element = document.createElement(tagName);
+//   for (var key in attributes) {
+//     if (key === 'textContent') {
+//       element.textContent = attributes.textContent;
+//     } else {
+//       element.setAttribute(key, attributes[key]);
+//     }
+//   }
+//   for (var i = 0; i < children.length; i++) {
+//     element.append(children[i]);
+//   }
+//   return element;
+// }

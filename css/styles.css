@@ -1,5 +1,6 @@
 body {
   background-color: #bababa;
+  font-family: roboto, sans-serif;
 }
 
 .hidden {
@@ -15,6 +16,7 @@ body {
 .search-bar-background {
   display: flex;
   align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .search-bar {
@@ -22,7 +24,7 @@ body {
   border: 0;
   border-radius: 2.5px;
   margin-right: 1rem;
-  padding: 0.75rem;
+  padding: 0.5rem;
   width: 30rem;
 }
 
@@ -32,9 +34,9 @@ body {
 
 button {
   background-color: #fff;
-  border: solid #3987be;
-  color: #3987be;
-  padding: 0.5rem 0.75rem;
+  border: solid #70a8e3;
+  color: #70a8e3;
+  padding: 0.4rem 0.75rem;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
@@ -57,7 +59,7 @@ button {
 
 .image-holder {
   height: 10rem;
-  flex-basis: 32.5%;
+  flex-basis: 20%;
 }
 
 .image-holder img {
@@ -73,8 +75,9 @@ button {
   overflow: hidden;
 }
 
-p {
+.card-text > p {
   padding: 0.5rem;
   padding-left: 0;
   padding-top: 0;
+  font-size: 0.75rem;
 }
