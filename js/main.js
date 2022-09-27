@@ -1,5 +1,5 @@
 var $mobileSearch = document.querySelector('.mobile-search-hidden');
-var $windowSearch = document.querySelector('.window-search-hidden');
+var $windowSearch = document.querySelector('.window-search-bar');
 var $searchResults = document.querySelector('.search-results');
 var $noResultFound = document.querySelector('.no-result-found');
 
