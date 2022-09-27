@@ -1,7 +1,6 @@
 var $mobileSearch = document.querySelector('.mobile-search-hidden');
 var $windowSearch = document.querySelector('.window-search-hidden');
 var windowCurrentSize = window.innerWidth;
-var $listOfCardTexts = document.querySelectorAll('.truncate');
 var $searchResults = document.querySelector('.search-results');
 // Use Queryselector for a column-half element and populate the data from my API
 
@@ -28,35 +27,64 @@ if (windowCurrentSize > 768) {
 }
 
 // Used for truncating texts
-function truncateTexts() {
+function truncateTexts(text) {
   var threeLines = 200;
-  for (var i = 0; i < $listOfCardTexts.length; i++) {
-    if ($listOfCardTexts[i].textContent.length >= threeLines) {
-      $listOfCardTexts[i].textContent = $listOfCardTexts[i].textContent.slice(0, threeLines) + '...';
-    }
+  if (!text) {
+    return;
   }
+  if (text.length >= threeLines) {
+    text = text.slice(0, threeLines) + '...';
+  }
+  return text;
 }
 truncateTexts();
 
 // Used to avoid CORS error
-function getYugiohData(cardName) {
-  var tempData;
+// Used for exact name search
+// function getYugiohDataExact(exactCardName) {
+//   var tempData;
+//   var tempDomTree;
+//   var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + exactCardName);
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+//   xhr.setRequestHeader('token', 'abc123');
+//   xhr.responseType = 'json';
+//   xhr.addEventListener('load', function () {
+//     tempData = xhr.response;
+//     tempDomTree = generateSearchCard(tempData);
+//     $searchResults.appendChild(tempDomTree);
+//   });
+//   xhr.send();
+// }
+
+// getYugiohDataExact('Blue-Eyes White Dragon');
+// getYugiohDataExact('Kuriboh');
+
+var tempData;
+function getYugiohDataFuzzy(fuzzyCardName) {
+
   var tempDomTree;
-  var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
+  var searchText = fuzzyCardName.split(' ').join('%20');
+  var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?&fname=' + searchText);
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
   xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     tempData = xhr.response;
-    tempDomTree = generateSearchCard(tempData);
-    $searchResults.appendChild(tempDomTree);
+    var maxLength = 5; // Can use later to modify how many search results are displayed
+    if (maxLength > tempData.data.length) {
+      maxLength = tempData.data.length;
+    }
+    for (var i = 0; i < maxLength; i++) {
+      tempDomTree = generateSearchCard(tempData, i);
+      $searchResults.appendChild(tempDomTree);
+    }
   });
   xhr.send();
 }
 
-getYugiohData('Blue-Eyes White Dragon');
-getYugiohData('Kuriboh');
+getYugiohDataFuzzy('Blue-Eyes');
 
 function generateDomTree(tagName, attributes, children = []) {
   var element = document.createElement(tagName);
@@ -73,15 +101,15 @@ function generateDomTree(tagName, attributes, children = []) {
   return element;
 }
 
-function generateSearchCard(cardData) {
+function generateSearchCard(cardData, i = 0) {
   var DOMTree = generateDomTree('div', { class: 'column-half' }, [
     generateDomTree('div', { class: 'search-card' }, [
       generateDomTree('div', { class: 'image-holder' }, [
-        generateDomTree('img', { class: 'card-image', src: cardData.data[0].card_images[0].image_url })
+        generateDomTree('img', { class: 'card-image', src: cardData.data[i].card_images[0].image_url })
       ]),
       generateDomTree('div', { class: 'card-text' }, [
-        generateDomTree('h3', { textContent: cardData.data[0].name }),
-        generateDomTree('p', { textContent: cardData.data[0].desc })
+        generateDomTree('h3', { textContent: cardData.data[i].name }),
+        generateDomTree('p', { class: 'truncate', textContent: truncateTexts(cardData.data[i].desc) })
       ])
     ])
   ]);
