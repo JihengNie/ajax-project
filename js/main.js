@@ -2,8 +2,26 @@ var $mobileSearch = document.querySelector('.mobile-search-hidden');
 var $windowSearch = document.querySelector('.window-search-hidden');
 var windowCurrentSize = window.innerWidth;
 var $searchResults = document.querySelector('.search-results');
+var $noResultFound = document.querySelector('.no-result-found');
 
+// Event Handlers
 window.addEventListener('resize', searchBarDisplay);
+$mobileSearch.addEventListener('submit', mobileSearching);
+$windowSearch.addEventListener('submit', windowSearching);
+
+// Event Hangler functions
+function mobileSearching(event) {
+  event.preventDefault();
+  getYugiohDataFuzzy($mobileSearch.elements.search.value);
+  $mobileSearch.reset()
+  ;
+}
+
+function windowSearching(event) {
+  event.preventDefault();
+  getYugiohDataFuzzy($windowSearch.elements.search.value);
+  $windowSearch.reset();
+}
 
 // Used for showing the correct search bar based on current window size
 if (windowCurrentSize > 768) {
@@ -35,9 +53,7 @@ function truncateTexts(text) {
   }
   return text;
 }
-truncateTexts();
 
-// Used to avoid CORS error
 function getYugiohDataFuzzy(fuzzyCardName) {
   var tempData;
   var tempDomTree;
@@ -49,6 +65,10 @@ function getYugiohDataFuzzy(fuzzyCardName) {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     tempData = xhr.response;
+    if (tempData.error) {
+      $noResultFound.className = 'column-half no-result-found';
+      return;
+    }
     var maxLength = 5; // Can use later to modify how many search results are displayed
     if (maxLength > tempData.data.length) {
       maxLength = tempData.data.length;
@@ -60,8 +80,6 @@ function getYugiohDataFuzzy(fuzzyCardName) {
   });
   xhr.send();
 }
-
-getYugiohDataFuzzy('Blue-Eyes');
 
 function generateDomTree(tagName, attributes, children = []) {
   var element = document.createElement(tagName);
