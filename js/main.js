@@ -15,11 +15,17 @@ var $deckList = document.querySelector('.deck-style');
 var $deckButton = document.querySelector('.deck-button');
 var $deckContainer = document.querySelector('.deck-view');
 var $headerSearchButton = document.querySelector('.head-search-button');
+var previousDeckData = localStorage.getItem('Deck-Data-local-storage');
 
 var deckData = {
   cards: [],
-  previousSearch: ''
+  previousSearch: '',
+  nextEntryID: 0
 };
+
+if (previousDeckData) {
+  deckData = JSON.parse(previousDeckData);
+}
 
 // Event Handlers
 $mobileSearch.addEventListener('submit', mobileSearching);
@@ -29,8 +35,21 @@ $addButton.addEventListener('click', storeingCurrentData);
 $deckButton.addEventListener('click', viewingDeck);
 $headerSearchButton.addEventListener('click', viewingSearch);
 $deckList.addEventListener('click', cardInDeckDetails);
+window.addEventListener('DOMContentLoaded', deckLoad);
+window.addEventListener('beforeunload', storingDeckData);
 
 // Event Hangler functions
+function storingDeckData(event) {
+  var deckDataStringify = JSON.stringify(deckData);
+  localStorage.setItem('Deck-Data-local-storage', deckDataStringify);
+}
+
+function deckLoad(event) {
+  resetDeckResults();
+  // addingCardsToDeck();
+  appendingCardImageToDeckURL();
+}
+
 function cardInDeckDetails(event) {
   if (event.target.tagName === 'IMG') {
     getYugiohDataExact(event.target.name);
@@ -51,22 +70,30 @@ function viewingSearch(event) {
 }
 
 function viewingDeck(event) {
-  resetDeckResults();
-  resetSearchResults();
   $singleView.className = 'container single-view hidden';
   $deckContainer.className = 'container deck-view';
   $searchResultFeed.className = 'row search-results hidden';
   $mobileSearch.className = 'hidden';
-  addingCardsToDeck();
+  resetSearchResults();
 }
 
 function storeingCurrentData(event) {
-  deckData.cards.push($singleCardName.textContent);
+  var tempObject = {
+    cardName: '',
+    entryID: 0,
+    imgUrl: ''
+  };
+  tempObject.cardName = $singleCardName.textContent;
+  tempObject.entryID = deckData.nextEntryID;
+  tempObject.imgUrl = $singleCardImage.src;
+  deckData.nextEntryID++;
+  deckData.cards.push(tempObject);
   $singleView.className = 'hidden';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
   $searchResultFeed.className = 'row search-results';
   resetSearchResults();
   getYugiohDataFuzzy(deckData.previousSearch);
+  appendingCardImageToDeck($singleCardName.textContent);
 }
 
 function detailedCardView(event) {
@@ -99,9 +126,14 @@ function windowSearching(event) {
 }
 
 // Other functions
-function addingCardsToDeck() {
+function appendingCardImageToDeckURL() {
+  var imgElement;
   for (var i = 0; i < deckData.cards.length; i++) {
-    appendingCardImageToDeck(deckData.cards[i]);
+    imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
+      generateDomTree('img', { name: deckData.cards[i].cardName, src: deckData.cards[i].imgUrl })
+    ]);
+    $deckList.appendChild(imgElement);
+    imgElement = null;
   }
 }
 
@@ -117,7 +149,7 @@ function appendingCardImageToDeck(cardName) {
     var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
       generateDomTree('img', { name: tempData.data[0].name, src: tempData.data[0].card_images[0].image_url })
     ]);
-    $deckList.prepend(imgElement);
+    $deckList.appendChild(imgElement);
   });
   xhr.send();
 }
