@@ -1,12 +1,31 @@
 var $mobileSearch = document.querySelector('.mobile-search-hidden');
 var $windowSearch = document.querySelector('.window-search-bar');
 var $searchResultFeed = document.querySelector('.search-results');
+var $singleCardName = document.querySelector('.single-card-name');
+var $singleCardImage = document.querySelector('.single-card-image');
+var $singleCardText = document.querySelector('.single-card-text');
+var $singleAmazon = document.querySelector('.single-amazon');
+var $singleCardMarket = document.querySelector('.single-cardmarket');
+var $singleEbay = document.querySelector('.single-ebay');
+var $singleCoolstuff = document.querySelector('.single-coolstuff');
+var $singleTCG = document.querySelector('.single-tcg');
+var $singleView = document.querySelector('.single-view');
 
 // Event Handlers
 $mobileSearch.addEventListener('submit', mobileSearching);
 $windowSearch.addEventListener('submit', windowSearching);
+$searchResultFeed.addEventListener('click', detailedCardView);
 
 // Event Hangler functions
+function detailedCardView(event) {
+  if (event.target.tagName === 'H3') {
+    $singleView.className = 'container single-view';
+    $mobileSearch.className = 'hidden';
+    $searchResultFeed.className = 'hidden';
+    getYugiohDataExact(event.target.textContent);
+  }
+}
+
 function mobileSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($mobileSearch.elements.search.value);
@@ -29,24 +48,30 @@ function resetSearchResults() {
 }
 
 // Used for exact name search
-// function getYugiohDataExact(exactCardName) {
-//   var tempData;
-//   var tempDomTree;
-//   var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + exactCardName);
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-//   xhr.setRequestHeader('token', 'abc123');
-//   xhr.responseType = 'json';
-//   xhr.addEventListener('load', function () {
-//     tempData = xhr.response;
-//     tempDomTree = generateSearchCard(tempData);
-//     $searchResultFeed.appendChild(tempDomTree);
-//   });
-//   xhr.send();
-// }
+function getYugiohDataExact(exactCardName) {
+  var tempData;
+  var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + exactCardName);
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+  xhr.setRequestHeader('token', 'abc123');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    tempData = xhr.response;
+    populatingSingleView(tempData);
+  });
+  xhr.send();
+}
 
-// getYugiohDataExact('Blue-Eyes White Dragon');
-// getYugiohDataExact('Kuriboh');
+function populatingSingleView(cardData) {
+  $singleCardName.textContent = cardData.data[0].name;
+  $singleCardImage.src = cardData.data[0].card_images[0].image_url;
+  $singleCardText.textContent = cardData.data[0].desc;
+  $singleAmazon.textContent = '$' + cardData.data[0].card_prices[0].amazon_price;
+  $singleCardMarket.textContent = '$' + cardData.data[0].card_prices[0].cardmarket_price;
+  $singleEbay.textContent = '$' + cardData.data[0].card_prices[0].ebay_price;
+  $singleCoolstuff.textContent = '$' + cardData.data[0].card_prices[0].coolstuffinc_price;
+  $singleTCG.textContent = '$' + cardData.data[0].card_prices[0].tcgplayer_price;
+}
 
 function getYugiohDataFuzzy(fuzzyCardName) {
   var tempData;
