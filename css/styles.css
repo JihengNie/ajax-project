@@ -155,6 +155,7 @@ body {
 
 .add-button:hover {
   background-color: #4d90ec;
+  cursor: pointer;
 }
 
 .margin-auto {
@@ -177,6 +178,10 @@ body {
 .deck-card-image-holder > img {
   width: 100%;
   padding: 0.25rem 0.5rem;
+}
+
+.deck-card-image-holder > img:hover {
+  cursor: pointer;
 }
 
 .heading-format {
@@ -268,5 +273,10 @@ body {
 
   .deck-card-image-holder {
     flex-basis: calc(100% / 8);
+  }
+
+  .deck-card-image-holder > img {
+    width: 100%;
+    padding: 0.25rem 0.5rem;
   }
 }

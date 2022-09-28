@@ -28,8 +28,19 @@ $searchResultFeed.addEventListener('click', detailedCardView);
 $addButton.addEventListener('click', storeingCurrentData);
 $deckButton.addEventListener('click', viewingDeck);
 $headerSearchButton.addEventListener('click', viewingSearch);
+$deckList.addEventListener('click', cardInDeckDetails);
 
 // Event Hangler functions
+function cardInDeckDetails(event) {
+  if (event.target.tagName === 'IMG') {
+    getYugiohDataExact(event.target.name);
+    $singleView.className = 'container single-view';
+    $mobileSearch.className = 'hidden';
+    $searchResultFeed.className = 'hidden';
+    $deckContainer.className = 'container deck-view hidden';
+  }
+}
+
 function viewingSearch(event) {
   $deckContainer.className = 'container deck-view hidden';
   $searchResultFeed.className = 'row search-results';
@@ -42,6 +53,7 @@ function viewingSearch(event) {
 function viewingDeck(event) {
   resetDeckResults();
   resetSearchResults();
+  $singleView.className = 'container single-view hidden';
   $deckContainer.className = 'container deck-view';
   $searchResultFeed.className = 'row search-results hidden';
   $mobileSearch.className = 'hidden';
@@ -103,7 +115,7 @@ function appendingCardImageToDeck(cardName) {
   xhr.addEventListener('load', function () {
     tempData = xhr.response;
     var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
-      generateDomTree('img', { src: tempData.data[0].card_images[0].image_url })
+      generateDomTree('img', { name: tempData.data[0].name, src: tempData.data[0].card_images[0].image_url })
     ]);
     $deckList.prepend(imgElement);
   });
