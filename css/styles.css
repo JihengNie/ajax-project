@@ -199,4 +199,28 @@ button {
     width: 100%;
     max-width: 5rem;
   }
+
+  .space-between {
+    display: flex;
+    justify-content: space-evenly;
+  }
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.add-button {
+  border-radius: 50%;
+  text-align: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin: auto 0;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  padding: 0;
+  background-color: #0e4da4;
+  color: white;
+  border: 0;
 }
