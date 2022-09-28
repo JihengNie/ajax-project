@@ -208,19 +208,23 @@ button {
 
 .space-between {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .add-button {
   border-radius: 50%;
   text-align: center;
-  height: 1.5rem;
-  width: 1.5rem;
-  margin: auto 0;
-  margin-left: 0.5rem;
+  height: 2rem;
+  width: 2rem;
+  margin: auto 1rem;
   font-size: 1rem;
   padding: 0;
   background-color: #0e4da4;
   color: white;
   border: 0;
+  transition: 0.25s;
+}
+
+.add-button:hover {
+  background-color: #4d90ec;
 }
