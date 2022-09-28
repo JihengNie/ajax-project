@@ -62,6 +62,7 @@ function cardInDeckDetails(event) {
 
 function viewingSearch(event) {
   $deckContainer.className = 'container deck-view hidden';
+  $singleView.className = 'container single-view hidden';
   $searchResultFeed.className = 'row search-results';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
   resetSearchResults();
