@@ -11,6 +11,10 @@ var $singleCoolstuff = document.querySelector('.single-coolstuff');
 var $singleTCG = document.querySelector('.single-tcg');
 var $singleView = document.querySelector('.single-view');
 var $addButton = document.querySelector('.add-button');
+var $deckList = document.querySelector('.deck-style');
+var $deckButton = document.querySelector('.deck-button');
+var $deckContainer = document.querySelector('.deck-view');
+var $headerSearchButton = document.querySelector('.head-search-button');
 
 var deckData = {
   cards: [],
@@ -22,8 +26,28 @@ $mobileSearch.addEventListener('submit', mobileSearching);
 $windowSearch.addEventListener('submit', windowSearching);
 $searchResultFeed.addEventListener('click', detailedCardView);
 $addButton.addEventListener('click', storeingCurrentData);
+$deckButton.addEventListener('click', viewingDeck);
+$headerSearchButton.addEventListener('click', viewingSearch);
 
 // Event Hangler functions
+function viewingSearch(event) {
+  $deckContainer.className = 'container deck-view hidden';
+  $searchResultFeed.className = 'row search-results';
+  $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
+  resetSearchResults();
+  getYugiohDataFuzzy(deckData.previousSearch);
+
+}
+
+function viewingDeck(event) {
+  resetDeckResults();
+  resetSearchResults();
+  $deckContainer.className = 'container deck-view';
+  $searchResultFeed.className = 'row search-results hidden';
+  $mobileSearch.className = 'hidden';
+  addingCardsToDeck();
+}
+
 function storeingCurrentData(event) {
   deckData.cards.push($singleCardName.textContent);
   $singleView.className = 'hidden';
@@ -46,6 +70,8 @@ function mobileSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($mobileSearch.elements.search.value);
   deckData.previousSearch = $mobileSearch.elements.search.value;
+  $deckContainer.className = 'container deck-view hidden';
+  $searchResultFeed.className = 'row search-results';
   resetSearchResults();
   $mobileSearch.reset();
 }
@@ -54,14 +80,45 @@ function windowSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($windowSearch.elements.search.value);
   deckData.previousSearch = $windowSearch.elements.search.value;
+  $deckContainer.className = 'container deck-view hidden';
+  $searchResultFeed.className = 'row search-results';
   resetSearchResults();
   $windowSearch.reset();
 }
 
 // Other functions
+function addingCardsToDeck() {
+  for (var i = 0; i < deckData.cards.length; i++) {
+    appendingCardImageToDeck(deckData.cards[i]);
+  }
+}
+
+function appendingCardImageToDeck(cardName) {
+  var tempData;
+  var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+  xhr.setRequestHeader('token', 'abc123');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    tempData = xhr.response;
+    var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
+      generateDomTree('img', { src: tempData.data[0].card_images[0].image_url })
+    ]);
+    $deckList.prepend(imgElement);
+  });
+  xhr.send();
+}
+
 function resetSearchResults() {
   while ($searchResultFeed.firstChild) {
     $searchResultFeed.removeChild($searchResultFeed.firstChild);
+  }
+}
+
+function resetDeckResults() {
+  while ($deckList.firstChild) {
+    $deckList.removeChild($deckList.firstChild);
   }
 }
 
@@ -79,6 +136,7 @@ function getYugiohDataExact(exactCardName) {
   });
   xhr.send();
 }
+getYugiohDataExact('Kuriboh');
 
 function populatingSingleView(cardData) {
   $singleCardName.textContent = cardData.data[0].name;
