@@ -10,13 +10,29 @@ var $singleEbay = document.querySelector('.single-ebay');
 var $singleCoolstuff = document.querySelector('.single-coolstuff');
 var $singleTCG = document.querySelector('.single-tcg');
 var $singleView = document.querySelector('.single-view');
+var $addButton = document.querySelector('.add-button');
+
+var deckData = {
+  cards: [],
+  previousSearch: ''
+};
 
 // Event Handlers
 $mobileSearch.addEventListener('submit', mobileSearching);
 $windowSearch.addEventListener('submit', windowSearching);
 $searchResultFeed.addEventListener('click', detailedCardView);
+$addButton.addEventListener('click', storeingCurrentData);
 
 // Event Hangler functions
+function storeingCurrentData(event) {
+  deckData.cards.push($singleCardName.textContent);
+  $singleView.className = 'hidden';
+  $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
+  $searchResultFeed.className = 'row search-results';
+  resetSearchResults();
+  getYugiohDataFuzzy(deckData.previousSearch);
+}
+
 function detailedCardView(event) {
   if (event.target.tagName === 'H3') {
     $singleView.className = 'container single-view';
@@ -29,6 +45,7 @@ function detailedCardView(event) {
 function mobileSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($mobileSearch.elements.search.value);
+  deckData.previousSearch = $mobileSearch.elements.search.value;
   resetSearchResults();
   $mobileSearch.reset();
 }
@@ -36,6 +53,7 @@ function mobileSearching(event) {
 function windowSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($windowSearch.elements.search.value);
+  deckData.previousSearch = $windowSearch.elements.search.value;
   resetSearchResults();
   $windowSearch.reset();
 }
