@@ -3,6 +3,10 @@
   margin: 0 auto;
 }
 
+.column-half-always {
+  width: 50%;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
