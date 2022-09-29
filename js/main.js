@@ -48,7 +48,7 @@ function storingDeckData(event) {
 
 function deckLoad(event) {
   resetDeckResults();
-  $deckPrice.textContent = 'Value: $' + deckData.price.toFixed(2);
+  $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
   appendingCardImageToDeckURL();
 }
 
@@ -78,7 +78,7 @@ function viewingDeck(event) {
   $searchResultFeed.className = 'row search-results hidden';
   $mobileSearch.className = 'hidden';
   if (deckData.price) {
-    $deckPrice.textContent = 'Value: $' + deckData.price;
+    $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
   }
   resetSearchResults();
 }
@@ -111,7 +111,7 @@ function storeingCurrentData(event) {
   deckData.cards.push(tempObject);
 
   deckData.price += tempObject.price;
-  $deckPrice.textContent = 'Value: $' + deckData.price.toFixed(2);
+  $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
 
   $singleView.className = 'hidden';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
