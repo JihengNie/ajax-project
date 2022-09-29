@@ -17,6 +17,7 @@ var $deckContainer = document.querySelector('.deck-view');
 var $headerSearchButton = document.querySelector('.head-search-button');
 var previousDeckData = localStorage.getItem('Deck-Data-local-storage');
 var $deckPrice = document.querySelector('.deck-price');
+var $loadingAnimation = document.querySelector('.loading');
 
 var deckData = {
   cards: [],
@@ -56,7 +57,14 @@ function deckLoad(event) {
 function cardInDeckDetails(event) {
   if (event.target.tagName === 'IMG') {
     getYugiohDataExact(event.target.name);
-    $singleView.className = 'container single-view';
+    setTimeout(function () {
+      $loadingAnimation.className = 'row loading';
+      $singleView.className = 'hidden';
+    }, 0);
+    setTimeout(function () {
+      $loadingAnimation.className = 'row loading hidden';
+      $singleView.className = 'container single-view';
+    }, 1000);
     $mobileSearch.className = 'hidden';
     $searchResultFeed.className = 'hidden';
     $deckContainer.className = 'container deck-view hidden';
@@ -127,6 +135,14 @@ function detailedCardView(event) {
     $singleView.className = 'container single-view';
     $mobileSearch.className = 'hidden';
     $searchResultFeed.className = 'hidden';
+    setTimeout(function () {
+      $loadingAnimation.className = 'row loading';
+      $singleView.className = 'hidden';
+    }, 0);
+    setTimeout(function () {
+      $loadingAnimation.className = 'row loading hidden';
+      $singleView.className = 'container single-view';
+    }, 1000);
     getYugiohDataExact(event.target.textContent);
   }
 }
