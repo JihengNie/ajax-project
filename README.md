@@ -1,3 +1,3 @@
-# ajax-project
+# card-theif
 
-A dynamic HTML, CSS, and JavaScript solo project.
+A web application for Yugioh fans who want to know the cost of their dream deck.
