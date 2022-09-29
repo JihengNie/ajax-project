@@ -185,7 +185,6 @@ function loadingDisplay(boolean) {
     $singleView.className = 'container single-view hidden';
   } else {
     $loadingAnimation.className = 'row loading hidden';
-    $singleView.className = 'container single-view';
   }
 }
 
