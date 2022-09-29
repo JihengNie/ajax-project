@@ -13,6 +13,21 @@ body {
   font-weight: 100;
 }
 
+.heading-format {
+  font-size: 0.75rem;
+  margin-left: 1rem;
+}
+
+.heading-format u {
+  padding: 0 0.25rem;
+  transition: 0.5s;
+}
+
+.heading-format u:hover {
+  cursor: pointer;
+  color: blue;
+}
+
 .search-bar-background {
   display: flex;
   align-items: center;
@@ -26,10 +41,6 @@ body {
   margin-right: 1rem;
   padding: 0.5rem;
   width: 30rem;
-}
-
-.bottom-shadow {
-  box-shadow: 0 3px 5px 1px #6b6b6b;
 }
 
 .search-button {
@@ -52,16 +63,20 @@ body {
   background-color: #b2591a;
 }
 
+.bottom-shadow {
+  box-shadow: 0 3px 5px 1px #6b6b6b;
+}
+
 .margin-add {
   margin: 1rem auto;
 }
 
-.image-holder {
+.search-card-image-holder {
   height: 10rem;
   flex-basis: 20%;
 }
 
-.image-holder img {
+.search-card-image-holder img {
   object-fit: scale-down;
   padding: 0.5rem;
   max-height: 100%;
@@ -75,19 +90,23 @@ body {
   display: flex;
 }
 
-.card-text > p {
+.search-card-text > p {
   padding: 0.5rem;
   padding-left: 0;
   padding-top: 0;
   font-size: 0.75rem;
 }
 
-.card-text > h3:hover {
+.search-card-text > h3:hover {
   cursor: pointer;
 }
 
 .window-search-hidden {
   display: none;
+}
+
+.margin-auto {
+  margin: auto 0;
 }
 
 .single-view-card-text {
@@ -163,10 +182,6 @@ body {
   cursor: pointer;
 }
 
-.margin-auto {
-  margin: auto 0;
-}
-
 .deck-style {
   background-color: #e5e5e5;
   border-radius: 10px;
@@ -187,21 +202,6 @@ body {
 
 .deck-card-image-holder > img:hover {
   cursor: pointer;
-}
-
-.heading-format {
-  font-size: 0.75rem;
-  margin-left: 1rem;
-}
-
-.heading-format u {
-  padding: 0 0.25rem;
-  transition: 0.5s;
-}
-
-.heading-format u:hover {
-  cursor: pointer;
-  color: blue;
 }
 
 @media screen and (min-width: 768px) {

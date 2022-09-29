@@ -39,9 +39,15 @@ $headerSearchButton.addEventListener('click', viewingSearch);
 $deckList.addEventListener('click', cardInDeckDetails);
 window.addEventListener('DOMContentLoaded', deckLoad);
 window.addEventListener('beforeunload', storingDeckData);
+window.addEventListener('pagehide', storingDeckDataPageHide);
 
 // Event Hangler functions
 function storingDeckData(event) {
+  var deckDataStringify = JSON.stringify(deckData);
+  localStorage.setItem('Deck-Data-local-storage', deckDataStringify);
+}
+
+function storingDeckDataPageHide(event) {
   var deckDataStringify = JSON.stringify(deckData);
   localStorage.setItem('Deck-Data-local-storage', deckDataStringify);
 }
@@ -150,7 +156,7 @@ function windowSearching(event) {
   $windowSearch.reset();
 }
 
-// Other functions
+// No paramenter functions
 function appendingCardImageToDeckURL() {
   var imgElement;
   for (var i = 0; i < deckData.cards.length; i++) {
@@ -162,6 +168,33 @@ function appendingCardImageToDeckURL() {
   }
 }
 
+function resetSearchResults() {
+  while ($searchResultFeed.firstChild) {
+    $searchResultFeed.removeChild($searchResultFeed.firstChild);
+  }
+}
+
+function resetDeckResults() {
+  while ($deckList.firstChild) {
+    $deckList.removeChild($deckList.firstChild);
+  }
+}
+
+function generateNoResultSearchCard() {
+  var DOMTree = generateDomTree('div', { class: 'column-half' }, [
+    generateDomTree('div', { class: 'search-card' }, [
+      generateDomTree('div', { class: 'image-holder' }, [
+        generateDomTree('img', { class: 'card-image', src: 'images/Sheep.png' })
+      ]),
+      generateDomTree('div', { class: 'search-card-text' }, [
+        generateDomTree('h3', { textContent: 'No results found' })
+      ])
+    ])
+  ]);
+  $searchResultFeed.appendChild(DOMTree);
+}
+
+// Other functions
 function appendingCardImageToDeck(cardName) {
   var tempData;
   var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
@@ -179,19 +212,6 @@ function appendingCardImageToDeck(cardName) {
   xhr.send();
 }
 
-function resetSearchResults() {
-  while ($searchResultFeed.firstChild) {
-    $searchResultFeed.removeChild($searchResultFeed.firstChild);
-  }
-}
-
-function resetDeckResults() {
-  while ($deckList.firstChild) {
-    $deckList.removeChild($deckList.firstChild);
-  }
-}
-
-// Used for exact name search
 function getYugiohDataExact(exactCardName) {
   var tempData;
   var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + exactCardName);
@@ -262,30 +282,16 @@ function generateDomTree(tagName, attributes, children = []) {
 function generateSearchCard(cardData, i = 0) {
   var DOMTree = generateDomTree('div', { class: 'column-half' }, [
     generateDomTree('div', { class: 'search-card' }, [
-      generateDomTree('div', { class: 'image-holder' }, [
+      generateDomTree('div', { class: 'search-card-image-holder' }, [
         generateDomTree('img', { class: 'card-image', src: cardData.data[i].card_images[0].image_url })
       ]),
-      generateDomTree('div', { class: 'card-text' }, [
+      generateDomTree('div', { class: 'search-card-text' }, [
         generateDomTree('h3', { textContent: cardData.data[i].name }),
-        generateDomTree('p', { class: 'truncate', textContent: truncateTexts(cardData.data[i].desc) })
+        generateDomTree('p', { textContent: truncateTexts(cardData.data[i].desc) })
       ])
     ])
   ]);
   return DOMTree;
-}
-
-function generateNoResultSearchCard() {
-  var DOMTree = generateDomTree('div', { class: 'column-half' }, [
-    generateDomTree('div', { class: 'search-card' }, [
-      generateDomTree('div', { class: 'image-holder' }, [
-        generateDomTree('img', { class: 'card-image', src: 'images/Sheep.png' })
-      ]),
-      generateDomTree('div', { class: 'card-text' }, [
-        generateDomTree('h3', { textContent: 'No results found' })
-      ])
-    ])
-  ]);
-  $searchResultFeed.appendChild(DOMTree);
 }
 
 function truncateTexts(text) {
