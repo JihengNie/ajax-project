@@ -181,7 +181,6 @@ function getYugiohDataExact(exactCardName) {
   });
   xhr.send();
 }
-getYugiohDataExact('Kuriboh');
 
 function populatingSingleView(cardData) {
   $singleCardName.textContent = cardData.data[0].name;

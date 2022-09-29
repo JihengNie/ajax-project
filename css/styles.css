@@ -139,6 +139,11 @@ body {
   justify-content: space-between;
 }
 
+.deck-price {
+  margin: auto 0;
+  font-weight: 100;
+}
+
 .add-button {
   border-radius: 50%;
   text-align: center;
