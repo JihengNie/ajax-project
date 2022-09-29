@@ -16,11 +16,13 @@ var $deckButton = document.querySelector('.deck-button');
 var $deckContainer = document.querySelector('.deck-view');
 var $headerSearchButton = document.querySelector('.head-search-button');
 var previousDeckData = localStorage.getItem('Deck-Data-local-storage');
+var $deckPrice = document.querySelector('.deck-price');
 
 var deckData = {
   cards: [],
   previousSearch: '',
-  nextEntryID: 0
+  nextEntryID: 0,
+  price: 0.0
 };
 
 if (previousDeckData) {
@@ -46,7 +48,7 @@ function storingDeckData(event) {
 
 function deckLoad(event) {
   resetDeckResults();
-  // addingCardsToDeck();
+  $deckPrice.textContent = 'Value: $' + deckData.price.toFixed(2);
   appendingCardImageToDeckURL();
 }
 
@@ -75,6 +77,9 @@ function viewingDeck(event) {
   $deckContainer.className = 'container deck-view';
   $searchResultFeed.className = 'row search-results hidden';
   $mobileSearch.className = 'hidden';
+  if (deckData.price) {
+    $deckPrice.textContent = 'Value: $' + deckData.price;
+  }
   resetSearchResults();
 }
 
@@ -82,13 +87,32 @@ function storeingCurrentData(event) {
   var tempObject = {
     cardName: '',
     entryID: 0,
-    imgUrl: ''
+    imgUrl: '',
+    priceObject: {
+      amazon_price: parseFloat($singleAmazon.textContent.substring(1)),
+      cardmarket_price: parseFloat($singleCardMarket.textContent.substring(1)),
+      ebay_price: parseFloat($singleEbay.textContent.substring(1)),
+      coolstuffinc_price: parseFloat($singleCoolstuff.textContent.substring(1)),
+      tcgplayer_price: parseFloat($singleTCG.textContent.substring(1))
+    },
+    price: Math.pow(10, 1000)
   };
+
+  for (var items in tempObject.priceObject) {
+    if (tempObject.priceObject[items] > 0 && tempObject.priceObject[items] < tempObject.price) {
+      tempObject.price = tempObject.priceObject[items];
+    }
+  }
+
   tempObject.cardName = $singleCardName.textContent;
   tempObject.entryID = deckData.nextEntryID;
   tempObject.imgUrl = $singleCardImage.src;
   deckData.nextEntryID++;
   deckData.cards.push(tempObject);
+
+  deckData.price += tempObject.price;
+  $deckPrice.textContent = 'Value: $' + deckData.price.toFixed(2);
+
   $singleView.className = 'hidden';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
   $searchResultFeed.className = 'row search-results';
