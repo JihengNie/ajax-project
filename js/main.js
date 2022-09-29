@@ -39,7 +39,7 @@ $headerSearchButton.addEventListener('click', viewingSearch);
 $deckList.addEventListener('click', cardInDeckDetails);
 window.addEventListener('DOMContentLoaded', deckLoad);
 window.addEventListener('beforeunload', storingDeckData);
-window.addEventListener('pagehide', storingDeckDataPageHide);
+window.addEventListener('pagehide', storingDeckData);
 
 // Event Hangler functions
 function storingDeckData(event) {
@@ -47,13 +47,8 @@ function storingDeckData(event) {
   localStorage.setItem('Deck-Data-local-storage', deckDataStringify);
 }
 
-function storingDeckDataPageHide(event) {
-  var deckDataStringify = JSON.stringify(deckData);
-  localStorage.setItem('Deck-Data-local-storage', deckDataStringify);
-}
-
 function deckLoad(event) {
-  resetDeckResults();
+  resetResults($deckList);
   $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
   appendingCardImageToDeckURL();
 }
@@ -73,7 +68,7 @@ function viewingSearch(event) {
   $singleView.className = 'container single-view hidden';
   $searchResultFeed.className = 'row search-results';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
-  resetSearchResults();
+  resetResults($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
 
 }
@@ -86,7 +81,7 @@ function viewingDeck(event) {
   if (deckData.price) {
     $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
   }
-  resetSearchResults();
+  resetResults($searchResultFeed);
 }
 
 function storeingCurrentData(event) {
@@ -122,7 +117,7 @@ function storeingCurrentData(event) {
   $singleView.className = 'hidden';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
   $searchResultFeed.className = 'row search-results';
-  resetSearchResults();
+  resetResults($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
   appendingCardImageToDeck($singleCardName.textContent);
 }
@@ -142,7 +137,7 @@ function mobileSearching(event) {
   deckData.previousSearch = $mobileSearch.elements.search.value;
   $deckContainer.className = 'container deck-view hidden';
   $searchResultFeed.className = 'row search-results';
-  resetSearchResults();
+  resetResults($searchResultFeed);
   $mobileSearch.reset();
 }
 
@@ -152,7 +147,7 @@ function windowSearching(event) {
   deckData.previousSearch = $windowSearch.elements.search.value;
   $deckContainer.className = 'container deck-view hidden';
   $searchResultFeed.className = 'row search-results';
-  resetSearchResults();
+  resetResults($searchResultFeed);
   $windowSearch.reset();
 }
 
@@ -165,18 +160,6 @@ function appendingCardImageToDeckURL() {
     ]);
     $deckList.appendChild(imgElement);
     imgElement = null;
-  }
-}
-
-function resetSearchResults() {
-  while ($searchResultFeed.firstChild) {
-    $searchResultFeed.removeChild($searchResultFeed.firstChild);
-  }
-}
-
-function resetDeckResults() {
-  while ($deckList.firstChild) {
-    $deckList.removeChild($deckList.firstChild);
   }
 }
 
@@ -195,6 +178,12 @@ function generateNoResultSearchCard() {
 }
 
 // Other functions
+function resetResults(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
+
 function appendingCardImageToDeck(cardName) {
   var tempData;
   var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
