@@ -48,7 +48,7 @@ function storingDeckData(event) {
 }
 
 function deckLoad(event) {
-  resetResults($deckList);
+  removeAllChildren($deckList);
   $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
   appendingCardImageToDeckURL();
 }
@@ -68,7 +68,7 @@ function viewingSearch(event) {
   $singleView.className = 'container single-view hidden';
   $searchResultFeed.className = 'row search-results';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
-  resetResults($searchResultFeed);
+  removeAllChildren($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
 
 }
@@ -81,7 +81,7 @@ function viewingDeck(event) {
   if (deckData.price) {
     $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
   }
-  resetResults($searchResultFeed);
+  removeAllChildren($searchResultFeed);
 }
 
 function storeingCurrentData(event) {
@@ -117,7 +117,7 @@ function storeingCurrentData(event) {
   $singleView.className = 'hidden';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
   $searchResultFeed.className = 'row search-results';
-  resetResults($searchResultFeed);
+  removeAllChildren($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
   appendingCardImageToDeck($singleCardName.textContent);
 }
@@ -137,7 +137,7 @@ function mobileSearching(event) {
   deckData.previousSearch = $mobileSearch.elements.search.value;
   $deckContainer.className = 'container deck-view hidden';
   $searchResultFeed.className = 'row search-results';
-  resetResults($searchResultFeed);
+  removeAllChildren($searchResultFeed);
   $mobileSearch.reset();
 }
 
@@ -147,7 +147,7 @@ function windowSearching(event) {
   deckData.previousSearch = $windowSearch.elements.search.value;
   $deckContainer.className = 'container deck-view hidden';
   $searchResultFeed.className = 'row search-results';
-  resetResults($searchResultFeed);
+  removeAllChildren($searchResultFeed);
   $windowSearch.reset();
 }
 
@@ -178,7 +178,7 @@ function generateNoResultSearchCard() {
 }
 
 // Other functions
-function resetResults(element) {
+function removeAllChildren(element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
