@@ -234,32 +234,6 @@ function removeAllChildren(element) {
   }
 }
 
-// function appendingCardImageToDeck(cardName) {
-//   // var tempData;
-//   // var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
-//   // var xhr = new XMLHttpRequest();
-//   // xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-//   // xhr.setRequestHeader('token', 'abc123');
-//   // xhr.responseType = 'json';
-//   // loadingDisplay(true);
-//   // xhr.addEventListener('load', function () {
-//   //   tempData = xhr.response;
-//   // var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
-//   //   generateDomTree('img', { name: tempData.data[0].name, src: tempData.data[0].card_images[0].image_url })
-//   // ]);
-//   // $deckList.appendChild(imgElement);
-//   //   loadingDisplay(false);
-//   // });
-//   // xhr.send();
-//   var tempData;
-//   for (var i = 0; i < deckData.cards.length; i++) {}
-
-//   var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
-//     generateDomTree('img', { name: tempData.data[0].name, src: tempData.data[0].card_images[0].image_url })
-//   ]);
-//   $deckList.appendChild(imgElement);
-// }
-
 function getYugiohDataExact(exactCardName) {
   var tempData;
   var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + exactCardName);
