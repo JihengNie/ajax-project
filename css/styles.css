@@ -243,13 +243,15 @@ body {
 }
 
 .modal {
+  text-align: center;
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom: 15rem;
 }
 
 .modal-title {
-  font-size: 6rem;
+  font-size: 4rem;
   color: #b2591a;
 }
 
@@ -260,7 +262,7 @@ body {
   background-color: #b2591a;
   padding: 0.5rem;
   color: white;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   border-radius: 5px;
   border: 1px solid white;
   transition: 0.5s;
