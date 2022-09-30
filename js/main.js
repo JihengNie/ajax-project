@@ -15,11 +15,11 @@ var $deckList = document.querySelector('.deck-style');
 var $deckButton = document.querySelector('.deck-button');
 var $deckContainer = document.querySelector('.deck-view');
 var $headerSearchButton = document.querySelector('.head-search-button');
-var previousDeckData = localStorage.getItem('Deck-Data-local-storage');
 var $deckPrice = document.querySelector('.deck-price');
 var $loadingAnimation = document.querySelector('.loading');
 var $subtractButton = document.querySelector('.subtract-button');
 var $deckNodeList = $deckList.querySelectorAll('.deck-card-image-holder');
+var previousDeckData = localStorage.getItem('Deck-Data-local-storage');
 
 var deckData = {
   cards: [],
@@ -280,7 +280,7 @@ function getYugiohDataFuzzy(fuzzyCardName) {
       generateNoResultSearchCard();
       return;
     }
-    var maxLength = 5; // Can use later to modify how many search results are displayed
+    var maxLength = 10; // Can use later to modify how many search results are displayed
     if (maxLength > tempData.data.length) {
       maxLength = tempData.data.length;
     }
