@@ -85,6 +85,7 @@ function deckDetailedView(event) {
   if (event.target.tagName === 'IMG') {
     getYugiohDataExact(event.target.name);
     $subtractButton.className = 'subtract-button';
+    $addButton.className = 'hidden';
     $mobileSearch.className = 'hidden';
     $searchResultFeed.className = 'hidden';
     $deckContainer.className = 'container deck-view hidden';
@@ -163,6 +164,7 @@ function storeingCardData(event) {
 function searchDetailedView(event) {
   if (event.target.tagName === 'H3') {
     $subtractButton.className = 'hidden';
+    $addButton.className = 'add-button';
     $singleView.className = 'container single-view';
     $mobileSearch.className = 'hidden';
     $searchResultFeed.className = 'hidden';
