@@ -18,6 +18,8 @@ var $headerSearchButton = document.querySelector('.head-search-button');
 var previousDeckData = localStorage.getItem('Deck-Data-local-storage');
 var $deckPrice = document.querySelector('.deck-price');
 var $loadingAnimation = document.querySelector('.loading');
+var $subtractButton = document.querySelector('.subtract-button');
+var $deckNodeList = $deckList.querySelectorAll('.deck-card-image-holder');
 
 var deckData = {
   cards: [],
@@ -34,16 +36,38 @@ if (previousDeckData) {
 // Event Handlers
 $mobileSearch.addEventListener('submit', mobileSearching);
 $windowSearch.addEventListener('submit', windowSearching);
-$searchResultFeed.addEventListener('click', detailedCardView);
-$addButton.addEventListener('click', storeingCurrentData);
+$searchResultFeed.addEventListener('click', searchDetailedView);
+$addButton.addEventListener('click', storeingCardData);
 $deckButton.addEventListener('click', viewingDeck);
-$headerSearchButton.addEventListener('click', viewingSearch);
-$deckList.addEventListener('click', cardInDeckDetails);
+$headerSearchButton.addEventListener('click', viewingLastSearch);
+$deckList.addEventListener('click', deckDetailedView);
 window.addEventListener('DOMContentLoaded', deckLoad);
 window.addEventListener('beforeunload', storingDeckData);
 window.addEventListener('pagehide', storingDeckData);
+$subtractButton.addEventListener('click', removingCardFromDeck);
 
 // Event Hangler functions
+function removingCardFromDeck(event) {
+  for (var i = 0; i < deckData.cards.length; i++) {
+    if (deckData.viewingID === deckData.cards[i].entryID.toString()) {
+      deckData.price -= deckData.cards[i].price;
+      $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
+      deckData.cards.splice(i, 1);
+      $deckNodeList = $deckList.querySelectorAll('.deck-card-image-holder');
+      for (var j = 0; j < $deckNodeList.length; j++) {
+        if ($deckNodeList[i].querySelector('img').getAttribute('entryID') === deckData.viewingID.toString()) {
+          $deckNodeList[i].remove();
+        }
+      }
+      deckData.viewingID = null;
+      break;
+    }
+  }
+  $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
+  $searchResultFeed.className = 'hidden';
+  $deckContainer.className = 'container deck-view';
+  $singleView.className = 'container single-view hidden';
+}
 
 function storingDeckData(event) {
   var deckDataStringify = JSON.stringify(deckData);
@@ -57,9 +81,10 @@ function deckLoad(event) {
   appendingCardImageToDeckURL();
 }
 
-function cardInDeckDetails(event) {
+function deckDetailedView(event) {
   if (event.target.tagName === 'IMG') {
     getYugiohDataExact(event.target.name);
+    $subtractButton.className = 'subtract-button';
     $mobileSearch.className = 'hidden';
     $searchResultFeed.className = 'hidden';
     $deckContainer.className = 'container deck-view hidden';
@@ -68,7 +93,7 @@ function cardInDeckDetails(event) {
   }
 }
 
-function viewingSearch(event) {
+function viewingLastSearch(event) {
   $deckContainer.className = 'container deck-view hidden';
   $singleView.className = 'container single-view hidden';
   $searchResultFeed.className = 'row search-results';
@@ -91,7 +116,7 @@ function viewingDeck(event) {
   removeAllChildren($searchResultFeed);
 }
 
-function storeingCurrentData(event) {
+function storeingCardData(event) {
   var tempObject = {
     cardName: '',
     entryID: 0,
@@ -135,8 +160,9 @@ function storeingCurrentData(event) {
 
 }
 
-function detailedCardView(event) {
+function searchDetailedView(event) {
   if (event.target.tagName === 'H3') {
+    $subtractButton.className = 'hidden';
     $singleView.className = 'container single-view';
     $mobileSearch.className = 'hidden';
     $searchResultFeed.className = 'hidden';
@@ -151,6 +177,7 @@ function mobileSearching(event) {
   $deckContainer.className = 'container deck-view hidden';
   $searchResultFeed.className = 'row search-results';
   removeAllChildren($searchResultFeed);
+  deckData.viewingID = null;
   $mobileSearch.reset();
 }
 
@@ -161,6 +188,7 @@ function windowSearching(event) {
   $deckContainer.className = 'container deck-view hidden';
   $searchResultFeed.className = 'row search-results';
   removeAllChildren($searchResultFeed);
+  deckData.viewingID = null;
   $windowSearch.reset();
 }
 
