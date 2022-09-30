@@ -25,7 +25,7 @@ var previousDeckData = localStorage.getItem('Deck-Data-local-storage');
 
 var deckData = {
   cards: [],
-  previousSearch: '',
+  previousSearch: 'Kuriboh',
   nextEntryID: 0,
   price: 0.0,
   viewingID: 0
@@ -51,7 +51,9 @@ $modalButton.addEventListener('click', hiddingModal);
 
 // Event Hangler functions
 function hiddingModal(event) {
+  removeAllChildren($searchResultFeed);
   $modalContainer.className = 'hidden';
+  getYugiohDataFuzzy('Kuriboh');
 }
 
 function removingCardFromDeck(event) {

@@ -48,17 +48,14 @@ body {
 }
 
 .search-button {
-  background-color: #fff;
-  border: solid #70a8e3;
-  color: #70a8e3;
-  padding: 0.4rem 0.75rem;
-  border-radius: 5px;
-  font-size: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: black;
   transition: 0.5s;
 }
 
 .search-button:hover {
-  background-color: black;
   color: white;
   cursor: pointer;
 }
