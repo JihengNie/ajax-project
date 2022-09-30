@@ -18,12 +18,14 @@ var $headerSearchButton = document.querySelector('.head-search-button');
 var $deckPrice = document.querySelector('.deck-price');
 var $loadingAnimation = document.querySelector('.loading');
 var $subtractButton = document.querySelector('.subtract-button');
+var $modalButton = document.querySelector('.modal-button');
+var $modalContainer = document.querySelector('.modal-container');
 var $deckNodeList = $deckList.querySelectorAll('.deck-card-image-holder');
 var previousDeckData = localStorage.getItem('Deck-Data-local-storage');
 
 var deckData = {
   cards: [],
-  previousSearch: '',
+  previousSearch: 'Kuriboh',
   nextEntryID: 0,
   price: 0.0,
   viewingID: 0
@@ -45,8 +47,15 @@ window.addEventListener('DOMContentLoaded', deckLoad);
 window.addEventListener('beforeunload', storingDeckData);
 window.addEventListener('pagehide', storingDeckData);
 $subtractButton.addEventListener('click', removingCardFromDeck);
+$modalButton.addEventListener('click', hiddingModal);
 
 // Event Hangler functions
+function hiddingModal(event) {
+  removeAllChildren($searchResultFeed);
+  $modalContainer.className = 'hidden';
+  getYugiohDataFuzzy('Kuriboh');
+}
+
 function removingCardFromDeck(event) {
   for (var i = 0; i < deckData.cards.length; i++) {
     if (deckData.viewingID === deckData.cards[i].entryID.toString()) {
