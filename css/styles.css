@@ -7,6 +7,10 @@ body {
   display: none !important;
 }
 
+.display-flex {
+  display: flex;
+}
+
 .title {
   color: white;
   font-family: "Nova Square", sans-serif;
@@ -168,7 +172,7 @@ body {
   text-align: center;
   height: 2rem;
   width: 2rem;
-  margin: auto;
+  margin: auto 0.25rem;
   font-size: 1rem;
   padding: 0;
   background-color: #0e4da4;
@@ -182,6 +186,28 @@ body {
   background-color: #2ee59d;
   box-shadow: 0 15px 20px rgba(46, 229, 157, 0.4);
   transform: translateY(-7px);
+}
+
+.subtract-button {
+  border-radius: 50%;
+  text-align: center;
+  height: 2rem;
+  width: 2rem;
+  margin: auto 0.25rem;
+  font-size: 1rem;
+  padding: 0;
+  padding-bottom: 0.25rem;
+  background-color: #d10303;
+  color: white;
+  border: 0;
+  transition: 0.25s;
+}
+
+.subtract-button:hover {
+  cursor: pointer;
+  background-color: red;
+  box-shadow: 0 15px 20px rgba(46, 229, 157, 0.4);
+  transform: translateY(7px);
 }
 
 .deck-style {
