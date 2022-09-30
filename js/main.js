@@ -23,7 +23,8 @@ var deckData = {
   cards: [],
   previousSearch: '',
   nextEntryID: 0,
-  price: 0.0
+  price: 0.0,
+  viewingID: 0
 };
 
 if (previousDeckData) {
@@ -43,6 +44,7 @@ window.addEventListener('beforeunload', storingDeckData);
 window.addEventListener('pagehide', storingDeckData);
 
 // Event Hangler functions
+
 function storingDeckData(event) {
   var deckDataStringify = JSON.stringify(deckData);
   localStorage.setItem('Deck-Data-local-storage', deckDataStringify);
@@ -50,6 +52,7 @@ function storingDeckData(event) {
 
 function deckLoad(event) {
   removeAllChildren($deckList);
+  deckData.viewingID = null;
   $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
   appendingCardImageToDeckURL();
 }
@@ -61,6 +64,7 @@ function cardInDeckDetails(event) {
     $searchResultFeed.className = 'hidden';
     $deckContainer.className = 'container deck-view hidden';
     $singleView.className = 'container single-view hidden';
+    deckData.viewingID = event.target.getAttribute('entryID');
   }
 }
 
@@ -69,6 +73,7 @@ function viewingSearch(event) {
   $singleView.className = 'container single-view hidden';
   $searchResultFeed.className = 'row search-results';
   $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
+  deckData.viewingID = null;
   removeAllChildren($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
 
@@ -79,6 +84,7 @@ function viewingDeck(event) {
   $deckContainer.className = 'container deck-view';
   $searchResultFeed.className = 'row search-results hidden';
   $mobileSearch.className = 'hidden';
+  deckData.viewingID = null;
   if (deckData.price) {
     $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
   }
@@ -109,6 +115,12 @@ function storeingCurrentData(event) {
   tempObject.cardName = $singleCardName.textContent;
   tempObject.entryID = deckData.nextEntryID;
   tempObject.imgUrl = $singleCardImage.src;
+
+  var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
+    generateDomTree('img', { name: $singleCardName.textContent, src: $singleCardImage.src, entryID: deckData.nextEntryID })
+  ]);
+  $deckList.appendChild(imgElement);
+
   deckData.nextEntryID++;
   deckData.cards.push(tempObject);
 
@@ -120,7 +132,7 @@ function storeingCurrentData(event) {
   $searchResultFeed.className = 'row search-results';
   removeAllChildren($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
-  appendingCardImageToDeck($singleCardName.textContent);
+
 }
 
 function detailedCardView(event) {
@@ -157,7 +169,7 @@ function appendingCardImageToDeckURL() {
   var imgElement;
   for (var i = 0; i < deckData.cards.length; i++) {
     imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
-      generateDomTree('img', { name: deckData.cards[i].cardName, src: deckData.cards[i].imgUrl })
+      generateDomTree('img', { name: deckData.cards[i].cardName, src: deckData.cards[i].imgUrl, entryID: deckData.cards[i].entryID })
     ]);
     $deckList.appendChild(imgElement);
     imgElement = null;
@@ -194,24 +206,31 @@ function removeAllChildren(element) {
   }
 }
 
-function appendingCardImageToDeck(cardName) {
-  var tempData;
-  var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
-  xhr.responseType = 'json';
-  loadingDisplay(true);
-  xhr.addEventListener('load', function () {
-    tempData = xhr.response;
-    var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
-      generateDomTree('img', { name: tempData.data[0].name, src: tempData.data[0].card_images[0].image_url })
-    ]);
-    $deckList.appendChild(imgElement);
-    loadingDisplay(false);
-  });
-  xhr.send();
-}
+// function appendingCardImageToDeck(cardName) {
+//   // var tempData;
+//   // var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + cardName);
+//   // var xhr = new XMLHttpRequest();
+//   // xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+//   // xhr.setRequestHeader('token', 'abc123');
+//   // xhr.responseType = 'json';
+//   // loadingDisplay(true);
+//   // xhr.addEventListener('load', function () {
+//   //   tempData = xhr.response;
+//   // var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
+//   //   generateDomTree('img', { name: tempData.data[0].name, src: tempData.data[0].card_images[0].image_url })
+//   // ]);
+//   // $deckList.appendChild(imgElement);
+//   //   loadingDisplay(false);
+//   // });
+//   // xhr.send();
+//   var tempData;
+//   for (var i = 0; i < deckData.cards.length; i++) {}
+
+//   var imgElement = generateDomTree('div', { class: 'deck-card-image-holder' }, [
+//     generateDomTree('img', { name: tempData.data[0].name, src: tempData.data[0].card_images[0].image_url })
+//   ]);
+//   $deckList.appendChild(imgElement);
+// }
 
 function getYugiohDataExact(exactCardName) {
   var tempData;
