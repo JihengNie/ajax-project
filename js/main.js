@@ -72,10 +72,7 @@ function removingCardFromDeck(event) {
       break;
     }
   }
-  $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
-  $searchResultFeed.className = 'hidden';
-  $deckContainer.className = 'container deck-view';
-  $singleView.className = 'container single-view hidden';
+  viewSwapping('deck');
 }
 
 function storingDeckData(event) {
@@ -93,21 +90,13 @@ function deckLoad(event) {
 function deckDetailedView(event) {
   if (event.target.tagName === 'IMG') {
     getYugiohDataExact(event.target.name);
-    $subtractButton.className = 'subtract-button';
-    $addButton.className = 'hidden';
-    $mobileSearch.className = 'hidden';
-    $searchResultFeed.className = 'hidden';
-    $deckContainer.className = 'container deck-view hidden';
-    $singleView.className = 'container single-view hidden';
+    viewSwapping('single-deck');
     deckData.viewingID = event.target.getAttribute('entryID');
   }
 }
 
 function viewingLastSearch(event) {
-  $deckContainer.className = 'container deck-view hidden';
-  $singleView.className = 'container single-view hidden';
-  $searchResultFeed.className = 'row search-results';
-  $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
+  viewSwapping('last-search');
   deckData.viewingID = null;
   removeAllChildren($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
@@ -115,10 +104,7 @@ function viewingLastSearch(event) {
 }
 
 function viewingDeck(event) {
-  $singleView.className = 'container single-view hidden';
-  $deckContainer.className = 'container deck-view';
-  $searchResultFeed.className = 'row search-results hidden';
-  $mobileSearch.className = 'hidden';
+  viewSwapping('deck');
   deckData.viewingID = null;
   if (deckData.price) {
     $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
@@ -162,9 +148,7 @@ function storeingCardData(event) {
   deckData.price += tempObject.price;
   $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
 
-  $singleView.className = 'hidden';
-  $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
-  $searchResultFeed.className = 'row search-results';
+  viewSwapping('after-saving');
   removeAllChildren($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
 
@@ -172,11 +156,7 @@ function storeingCardData(event) {
 
 function searchDetailedView(event) {
   if (event.target.tagName === 'H3') {
-    $subtractButton.className = 'hidden';
-    $addButton.className = 'add-button';
-    $singleView.className = 'container single-view';
-    $mobileSearch.className = 'hidden';
-    $searchResultFeed.className = 'hidden';
+    viewSwapping('single-search');
     getYugiohDataExact(event.target.textContent);
   }
 }
@@ -185,8 +165,7 @@ function mobileSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($mobileSearch.elements.search.value);
   deckData.previousSearch = $mobileSearch.elements.search.value;
-  $deckContainer.className = 'container deck-view hidden';
-  $searchResultFeed.className = 'row search-results';
+  viewSwapping('search');
   removeAllChildren($searchResultFeed);
   deckData.viewingID = null;
   $mobileSearch.reset();
@@ -196,8 +175,7 @@ function windowSearching(event) {
   event.preventDefault();
   getYugiohDataFuzzy($windowSearch.elements.search.value);
   deckData.previousSearch = $windowSearch.elements.search.value;
-  $deckContainer.className = 'container deck-view hidden';
-  $searchResultFeed.className = 'row search-results';
+  viewSwapping('search');
   removeAllChildren($searchResultFeed);
   deckData.viewingID = null;
   $windowSearch.reset();
@@ -229,7 +207,37 @@ function generateNoResultSearchCard() {
   $searchResultFeed.appendChild(DOMTree);
 }
 
+function initializingViewHidden() {
+  var viewArray = [$singleView, $deckContainer, $subtractButton, $addButton, $searchResultFeed];
+  for (var i = 0; i < viewArray.length; i++) {
+    viewArray[i].className = 'hidden';
+  }
+}
+
 // Other functions
+function viewSwapping(view) {
+  if (view === 'deck') {
+    initializingViewHidden();
+    $deckContainer.className = 'container deck-view';
+    $searchResultFeed.className = 'hidden';
+  } else if (view === 'single-deck') {
+    initializingViewHidden();
+    $subtractButton.className = 'subtract-button';
+  } else if (view === 'single-search') {
+    initializingViewHidden();
+    $addButton.className = 'add-button';
+  } else if (view === 'last-search') {
+    initializingViewHidden();
+    $searchResultFeed.className = 'row search-results';
+  } else if (view === 'after-saving') {
+    initializingViewHidden();
+    $searchResultFeed.className = 'row search-results';
+  } else if (view === 'search') {
+    initializingViewHidden();
+    $searchResultFeed.className = 'row search-results';
+  }
+}
+
 function loadingDisplay(boolean) {
   if (boolean === true) {
     $loadingAnimation.className = 'row loading';
