@@ -207,33 +207,23 @@ function generateNoResultSearchCard() {
   $searchResultFeed.appendChild(DOMTree);
 }
 
-function initializingViewHidden() {
+// Other functions
+function viewSwapping(view) {
   var viewArray = [$singleView, $deckContainer, $subtractButton, $addButton, $searchResultFeed];
   for (var i = 0; i < viewArray.length; i++) {
     viewArray[i].className = 'hidden';
   }
-}
-
-// Other functions
-function viewSwapping(view) {
   if (view === 'deck') {
-    initializingViewHidden();
     $deckContainer.className = 'container deck-view';
-    $searchResultFeed.className = 'hidden';
   } else if (view === 'single-deck') {
-    initializingViewHidden();
     $subtractButton.className = 'subtract-button';
   } else if (view === 'single-search') {
-    initializingViewHidden();
     $addButton.className = 'add-button';
   } else if (view === 'last-search') {
-    initializingViewHidden();
     $searchResultFeed.className = 'row search-results';
   } else if (view === 'after-saving') {
-    initializingViewHidden();
     $searchResultFeed.className = 'row search-results';
   } else if (view === 'search') {
-    initializingViewHidden();
     $searchResultFeed.className = 'row search-results';
   }
 }
