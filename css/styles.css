@@ -1,5 +1,6 @@
 body {
-  background-color: #bababa;
+  /* background-color: #bababa; */
+  background-color: #e5e5e5;
   font-family: roboto, sans-serif;
 }
 
@@ -82,13 +83,15 @@ body {
   padding: 0.5rem;
   max-height: 100%;
   height: 100%;
+  cursor: pointer;
 }
 
 .search-card {
-  background-color: #e5e5e5;
+  background-color: #fff;
   border-radius: 10px;
   margin: 0.5rem 0;
   display: flex;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
 .search-card-text > p {
@@ -96,6 +99,14 @@ body {
   padding-left: 0;
   padding-top: 0;
   font-size: 0.75rem;
+}
+
+.single-view-card-text > p {
+  font-size: 12px;
+}
+
+.search-card-text > p:hover {
+  cursor: pointer;
 }
 
 .search-card-text > h3:hover {
@@ -111,15 +122,12 @@ body {
 }
 
 .single-view-card-text {
-  background-color: #e5e5e5;
+  background-color: #fff;
   border-radius: 10px;
   margin: 1.5rem 0;
   padding: 0.25rem 0.75rem;
   line-height: 2;
-}
-
-.single-view-card-text > p {
-  font-size: 12px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
 .single-view-image-holder {
@@ -176,6 +184,7 @@ body {
   color: white;
   border: 0;
   transition: 0.25s;
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
 }
 
 .add-button:hover {
@@ -198,6 +207,7 @@ body {
   color: white;
   border: 0;
   transition: 0.25s;
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
 }
 
 .subtract-button:hover {
@@ -208,12 +218,13 @@ body {
 }
 
 .deck-style {
-  background-color: #e5e5e5;
+  background-color: #fff;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   padding: 0.5rem 0;
   justify-content: normal;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
 .deck-card-image-holder {
@@ -285,7 +296,7 @@ body {
   }
 
   .single-view-card-text {
-    background-color: #e5e5e5;
+    background-color: #fff;
     border-radius: 10px;
     margin: 2rem 0;
     padding: 0.25rem 0.75rem;

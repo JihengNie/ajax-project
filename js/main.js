@@ -156,9 +156,16 @@ function storeingCardData(event) {
 
 function searchDetailedView(event) {
   if (event.target.tagName === 'H3') {
-    viewSwapping('single-search');
     getYugiohDataExact(event.target.textContent);
+    viewSwapping('single-search');
+  } else if (event.target.parentNode.firstChild.tagName === 'H3') {
+    getYugiohDataExact(event.target.parentNode.firstChild.textContent);
+    viewSwapping('single-search');
+  } else if (event.target.parentNode.parentNode.lastElementChild.firstChild.tagName === 'H3') {
+    getYugiohDataExact(event.target.parentNode.parentNode.lastElementChild.firstChild.textContent);
+    viewSwapping('single-search');
   }
+
 }
 
 function mobileSearching(event) {
