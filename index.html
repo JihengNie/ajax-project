@@ -25,7 +25,7 @@
           <h3 class="title">CardThief
             <span class="heading-format">
               <u class="deck-button">Deck</u>
-              <u class="head-search-button">Last Search</u>
+              <u class="head-search-button">Search</u>
             </span>
           </h3>
         </div>
@@ -38,14 +38,6 @@
       </div>
     </div>
   </header>
-  <div class="modal-container">
-    <div class="modal">
-      <div class="modal-image-container">
-        <h1 class="title modal-title"> CardThief</h1>
-        <button class="modal-button">Start Searching</button>
-      </div>
-    </div>
-  </div>
   <div class="container margin-add">
     <div class="row">
       <form class="column-one-third search-bar-background mobile-search-hidden">
@@ -54,46 +46,18 @@
       </form>
     </div>
     <div class="row search-results">
-      <div class="column-half">
-        <div class="search-card hidden">
-          <div class="search-card-image-holder">
-            <img class="search-card-card-image" src="images/Sheep.png"></div>
-          <div class="search-card-text">
-            <h3>Blue-Eyes Abyss Dragon</h3>
-            <p>If this card is Special Summoned: You can add 1 Ritual Spell or 1 Polymerization from your
-              Deck to your hand. During your End Phase: You can add 1 Level 8 or higher Dragon monster from your Deck to ...
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row loading hidden">
-      <div class="lds-spinner">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
     </div>
     <div class="container single-view hidden">
       <div class="row">
         <div class="column-half">
-          <div class="single-view-image-holder">
+          <div class="single-view-image-holder row">
             <img class="single-card-image" src="images/Sheep.png">
           </div>
         </div>
         <div class="column-half margin-add-top">
           <div class="space-between">
-            <h1 class="single-card-name"> Blue-Eyes Abyss Dragon</h1>
-            <div class="margin-auto display-flex">
+            <h1 class="single-card-name"> Card Name</h1>
+            <div class="margin-auto row">
               <div>
                 <button class="add-button">+</button>
               </div>
@@ -103,10 +67,9 @@
             </div>
           </div>
           <div class="single-view-card-text">
-            <h3>Card Text</h3>
+            <h3> Card Text</h3>
             <p class="single-card-text">
-              If this card is Special Summoned: You can add 1 Ritual Spell or 1 Polymerization from your
-              Deck to your hand. During your End Phase: You can add 1 Level 8 or higher Dragon monster from your Deck to ...
+              Temp Card Description
             </p>
           </div>
           <div class="single-view-card-text">
@@ -155,8 +118,30 @@
       </div>
     </div>
   </div>
-  <main>
-  </main>
+  <div class="modal-container">
+    <div class="modal">
+      <div class="modal-image-container">
+        <h1 class="title modal-title"> CardThief</h1>
+        <button class="modal-button">Start Searching</button>
+      </div>
+    </div>
+  </div>
+  <div class="row loading hidden">
+    <div class="lds-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
   <script src="js/main.js"></script>
 </body>
 </html>

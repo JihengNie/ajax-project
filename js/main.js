@@ -1,5 +1,5 @@
 var $mobileSearch = document.querySelector('.mobile-search-hidden');
-var $windowSearch = document.querySelector('.window-search-bar');
+var $desktopSearch = document.querySelector('.window-search-hidden');
 var $searchResultFeed = document.querySelector('.search-results');
 var $singleCardName = document.querySelector('.single-card-name');
 var $singleCardImage = document.querySelector('.single-card-image');
@@ -36,27 +36,40 @@ if (previousDeckData) {
 }
 
 // Event Handlers
-$mobileSearch.addEventListener('submit', mobileSearching);
-$windowSearch.addEventListener('submit', windowSearching);
+$desktopSearch.addEventListener('submit', searchFunction);
+$mobileSearch.addEventListener('submit', searchFunction);
 $searchResultFeed.addEventListener('click', searchDetailedView);
-$addButton.addEventListener('click', storeingCardData);
-$deckButton.addEventListener('click', viewingDeck);
-$headerSearchButton.addEventListener('click', viewingLastSearch);
+$addButton.addEventListener('click', storeCardData);
+$deckButton.addEventListener('click', viewDeck);
+$headerSearchButton.addEventListener('click', viewHeaderSearch);
 $deckList.addEventListener('click', deckDetailedView);
 window.addEventListener('DOMContentLoaded', deckLoad);
-window.addEventListener('beforeunload', storingDeckData);
-window.addEventListener('pagehide', storingDeckData);
-$subtractButton.addEventListener('click', removingCardFromDeck);
-$modalButton.addEventListener('click', hiddingModal);
+window.addEventListener('beforeunload', storeDeckData);
+window.addEventListener('pagehide', storeDeckData);
+$subtractButton.addEventListener('click', removeCardFromDeck);
+$modalButton.addEventListener('click', hideModal);
 
 // Event Hangler functions
-function hiddingModal(event) {
+function searchFunction(event) {
+  event.preventDefault();
+  getYugiohDataFuzzy(event.target.elements.search.value);
+  deckData.previousSearch = event.target.elements.search.value;
+  viewSwap('search');
+  if (event.target === $mobileSearch) {
+    viewSwap('mobile-search');
+  }
+  removeAllChildren($searchResultFeed);
+  deckData.viewingID = null;
+  event.target.reset();
+}
+
+function hideModal(event) {
   removeAllChildren($searchResultFeed);
   $modalContainer.className = 'hidden';
   getYugiohDataFuzzy('Kuriboh');
 }
 
-function removingCardFromDeck(event) {
+function removeCardFromDeck(event) {
   for (var i = 0; i < deckData.cards.length; i++) {
     if (deckData.viewingID === deckData.cards[i].entryID.toString()) {
       deckData.price -= deckData.cards[i].price;
@@ -72,10 +85,10 @@ function removingCardFromDeck(event) {
       break;
     }
   }
-  viewSwapping('deck');
+  viewSwap('deck');
 }
 
-function storingDeckData(event) {
+function storeDeckData(event) {
   var deckDataStringify = JSON.stringify(deckData);
   localStorage.setItem('Deck-Data-local-storage', deckDataStringify);
 }
@@ -90,21 +103,21 @@ function deckLoad(event) {
 function deckDetailedView(event) {
   if (event.target.tagName === 'IMG') {
     getYugiohDataExact(event.target.name);
-    viewSwapping('single-deck');
+    viewSwap('single-deck');
     deckData.viewingID = event.target.getAttribute('entryID');
   }
 }
 
-function viewingLastSearch(event) {
-  viewSwapping('last-search');
+function viewHeaderSearch(event) {
+  viewSwap('header-search');
   deckData.viewingID = null;
   removeAllChildren($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
 
 }
 
-function viewingDeck(event) {
-  viewSwapping('deck');
+function viewDeck(event) {
+  viewSwap('deck');
   deckData.viewingID = null;
   if (deckData.price) {
     $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
@@ -112,7 +125,7 @@ function viewingDeck(event) {
   removeAllChildren($searchResultFeed);
 }
 
-function storeingCardData(event) {
+function storeCardData(event) {
   var tempObject = {
     cardName: '',
     entryID: 0,
@@ -148,44 +161,34 @@ function storeingCardData(event) {
   deckData.price += tempObject.price;
   $deckPrice.textContent = 'Value: $' + Math.round(deckData.price * 100) / 100;
 
-  viewSwapping('after-saving');
+  viewSwap('after-saving');
   removeAllChildren($searchResultFeed);
   getYugiohDataFuzzy(deckData.previousSearch);
 
 }
 
 function searchDetailedView(event) {
-  if (event.target.tagName === 'H3') {
-    getYugiohDataExact(event.target.textContent);
-    viewSwapping('single-search');
-  } else if (event.target.parentNode.firstChild.tagName === 'H3') {
-    getYugiohDataExact(event.target.parentNode.firstChild.textContent);
-    viewSwapping('single-search');
-  } else if (event.target.parentNode.parentNode.lastElementChild.firstChild.tagName === 'H3') {
-    getYugiohDataExact(event.target.parentNode.parentNode.lastElementChild.firstChild.textContent);
-    viewSwapping('single-search');
+  if (event.target.textContent === 'No results found' ||
+    event.target.parentNode.parentNode.lastElementChild.firstChild.textContent === 'No results found'
+  ) {
+    viewSwap('no-search-results');
+    populateSingleViewNoSearchResults();
+    return;
   }
 
-}
-
-function mobileSearching(event) {
-  event.preventDefault();
-  getYugiohDataFuzzy($mobileSearch.elements.search.value);
-  deckData.previousSearch = $mobileSearch.elements.search.value;
-  viewSwapping('search');
-  removeAllChildren($searchResultFeed);
-  deckData.viewingID = null;
-  $mobileSearch.reset();
-}
-
-function windowSearching(event) {
-  event.preventDefault();
-  getYugiohDataFuzzy($windowSearch.elements.search.value);
-  deckData.previousSearch = $windowSearch.elements.search.value;
-  viewSwapping('search');
-  removeAllChildren($searchResultFeed);
-  deckData.viewingID = null;
-  $windowSearch.reset();
+  if (event.target.tagName === 'H3') {
+    getYugiohDataExact(event.target.textContent);
+    viewSwap('single-search');
+  } else if (event.target.parentNode.firstChild.tagName === 'H3') {
+    getYugiohDataExact(event.target.parentNode.firstChild.textContent);
+    viewSwap('single-search');
+  } else if (event.target.parentNode.parentNode.lastElementChild.firstChild.tagName === 'H3') {
+    getYugiohDataExact(event.target.parentNode.parentNode.lastElementChild.firstChild.textContent);
+    viewSwap('single-search');
+  } else if (event.target.querySelector('H3').textContent) {
+    getYugiohDataExact(event.target.querySelector('H3').textContent);
+    viewSwap('single-search');
+  }
 }
 
 // No paramenter functions
@@ -203,7 +206,7 @@ function appendingCardImageToDeckURL() {
 function generateNoResultSearchCard() {
   var DOMTree = generateDomTree('div', { class: 'column-half' }, [
     generateDomTree('div', { class: 'search-card' }, [
-      generateDomTree('div', { class: 'image-holder' }, [
+      generateDomTree('div', { class: 'search-card-image-holder' }, [
         generateDomTree('img', { class: 'card-image', src: 'images/Sheep.png' })
       ]),
       generateDomTree('div', { class: 'search-card-text' }, [
@@ -214,9 +217,20 @@ function generateNoResultSearchCard() {
   $searchResultFeed.appendChild(DOMTree);
 }
 
+function populateSingleViewNoSearchResults() {
+  $singleCardName.textContent = 'No Search Results';
+  $singleCardImage.src = '../images/Sheep.png';
+  $singleCardText.textContent = 'Please try searching for another card';
+  $singleAmazon.textContent = '$0';
+  $singleCardMarket.textContent = '$0';
+  $singleEbay.textContent = '$0';
+  $singleCoolstuff.textContent = '$0';
+  $singleTCG.textContent = '$0';
+}
+
 // Other functions
-function viewSwapping(view) {
-  var viewArray = [$singleView, $deckContainer, $subtractButton, $addButton, $searchResultFeed];
+function viewSwap(view) {
+  var viewArray = [$singleView, $deckContainer, $subtractButton, $addButton, $searchResultFeed, $mobileSearch];
   for (var i = 0; i < viewArray.length; i++) {
     viewArray[i].className = 'hidden';
   }
@@ -226,12 +240,18 @@ function viewSwapping(view) {
     $subtractButton.className = 'subtract-button';
   } else if (view === 'single-search') {
     $addButton.className = 'add-button';
-  } else if (view === 'last-search') {
+  } else if (view === 'header-search') {
     $searchResultFeed.className = 'row search-results';
+    $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
   } else if (view === 'after-saving') {
     $searchResultFeed.className = 'row search-results';
   } else if (view === 'search') {
     $searchResultFeed.className = 'row search-results';
+  } else if (view === 'mobile-search') {
+    $searchResultFeed.className = 'row search-results';
+    $mobileSearch.className = 'column-one-third search-bar-background mobile-search-hidden';
+  } else if (view === 'no-search-results') {
+    $singleView.className = 'container single-view';
   }
 }
 
@@ -255,7 +275,6 @@ function getYugiohDataExact(exactCardName) {
   var targetUrl = encodeURIComponent('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + exactCardName);
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
   loadingDisplay(true);
   xhr.addEventListener('load', function () {
@@ -286,15 +305,15 @@ function getYugiohDataFuzzy(fuzzyCardName) {
   var xhr = new XMLHttpRequest();
   loadingDisplay(true);
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-  xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     tempData = xhr.response;
     if (tempData.error) {
       generateNoResultSearchCard();
+      loadingDisplay(false);
       return;
     }
-    var maxLength = 10; // Can use later to modify how many search results are displayed
+    var maxLength = 20; // Can use later to modify how many search results are displayed
     if (maxLength > tempData.data.length) {
       maxLength = tempData.data.length;
     }
