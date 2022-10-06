@@ -7,10 +7,6 @@ body {
   display: none !important;
 }
 
-.display-flex {
-  display: flex;
-}
-
 .title {
   color: white;
   font-family: "Nova Square", sans-serif;
@@ -102,6 +98,10 @@ body {
 
 .single-view-card-text > p {
   font-size: 12px;
+}
+
+.search-card:hover {
+  cursor: pointer;
 }
 
 .search-card-text > p:hover {
@@ -218,6 +218,7 @@ body {
 
 .deck-style {
   background-color: #fff;
+  margin: 1rem;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
@@ -255,7 +256,6 @@ body {
 .modal {
   text-align: center;
   width: 100%;
-  display: flex;
   flex-direction: column;
   margin-bottom: 15rem;
 }
@@ -266,7 +266,6 @@ body {
 }
 
 .modal-button {
-  display: flex;
   font-family: "Nova Square", sans-serif;
   margin: auto;
   background-color: #b2591a;
