@@ -16,6 +16,7 @@ var $deckButton = document.querySelector('.deck-button');
 var $deckContainer = document.querySelector('.deck-view');
 var $headerSearchButton = document.querySelector('.head-search-button');
 var $deckPrice = document.querySelector('.deck-price');
+var $noCardsInDeckText = document.querySelector('.no-cards-in-deck');
 var $loadingAnimation = document.querySelector('.loading');
 var $subtractButton = document.querySelector('.subtract-button');
 var $modalButton = document.querySelector('.modal-button');
@@ -230,6 +231,11 @@ function populateSingleViewNoSearchResults() {
 
 // Other functions
 function viewSwap(view) {
+  if (deckData.cards.length > 0) {
+    $noCardsInDeckText.className = 'no-cards-in-deck hidden';
+  } else {
+    $noCardsInDeckText.className = 'no-cards-in-deck';
+  }
   var viewArray = [$singleView, $deckContainer, $subtractButton, $addButton, $searchResultFeed, $mobileSearch];
   for (var i = 0; i < viewArray.length; i++) {
     viewArray[i].className = 'hidden';

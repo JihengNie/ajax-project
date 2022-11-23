@@ -14,7 +14,7 @@ body {
 }
 
 .heading-format {
-  font-size: 0.75rem;
+  font-size: 1rem;
   margin-left: 1rem;
 }
 
@@ -98,7 +98,11 @@ body {
 }
 
 .single-view-card-text > p {
-  font-size: 12px;
+  font-size: 1rem;
+}
+
+.single-view-card-text > h3 {
+  font-size: 1.5rem;
 }
 
 .search-card:hover {
@@ -144,6 +148,7 @@ body {
 }
 
 .logo {
+  display: flex;
   height: 3rem;
   margin: 1rem 0;
 }
@@ -289,6 +294,15 @@ body {
   border: 1px solid #b2591a;
 }
 
+.no-cards-in-deck {
+  margin: 0;
+  margin-left: 2rem;
+}
+
+.no-cards-in-deck > h4 {
+  margin: 0;
+}
+
 @media screen and (min-width: 768px) {
   .window-search-hidden {
     display: contents;
@@ -323,11 +337,12 @@ body {
   }
 
   .single-view-card-text > p {
-    font-size: 12px;
+    font-size: 1rem;
   }
 
   .single-view-card-text > h3 {
     margin: 0.25rem 0;
+    font-size: 1.5rem;
   }
 
   .single-view-image-holder {
