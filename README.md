@@ -30,13 +30,13 @@ Try the application [here](https://jihengnie.github.io/card-thief/)!
 
 ## Preview
 #### User can browse cards from YGOPRODeck
-![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/109745413/203624353-6c59b359-f7bb-4202-b153-2c7d1b6fbdf0.gif)
+![Animation](https://user-images.githubusercontent.com/109745413/203634756-27c4111b-29ea-45f3-bffb-b2839353be3e.gif)
 
 #### User can click on a card to view its detailed view
-![ezgif com-gif-maker (4)](https://user-images.githubusercontent.com/109745413/203624415-6f1afa26-74bc-43a4-aa8d-290893ff3710.gif)
+![Animation3](https://user-images.githubusercontent.com/109745413/203634760-ded10362-134c-4fa1-a39a-6c48e9a263a6.gif)
 
 #### User can view the total cost of their deck
-![ezgif com-gif-maker (5)](https://user-images.githubusercontent.com/109745413/203624515-404e7c98-73d8-48b0-89bd-ec22ed515491.gif)
+![Animation2](https://user-images.githubusercontent.com/109745413/203634761-ff0c4149-4372-4498-aa15-5bbc3460ba2b.gif)
 
 ## Getting Started
 
